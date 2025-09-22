@@ -14,7 +14,6 @@ resource bastion 'Microsoft.Network/bastionHosts@2024-07-01' = {
     name: 'Premium'
   }
   properties: {
-    dnsName: 'bst-d7bb95d8-1c93-4c87-9800-8640f3f1db8c.bastion.azure.com'
     scaleUnits: 2
     ipConfigurations: [
       {
