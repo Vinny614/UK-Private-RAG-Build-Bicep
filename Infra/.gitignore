@@ -1,0 +1,25 @@
+# Ignore environment variable files
+.env
+*.env
+*.env.*
+
+# Ignore Azure CLI and Bicep deployment logs
+*.log
+*.tmp
+
+# Ignore VS Code and Codespaces settings
+.vscode/
+.devcontainer/
+*.code-workspace
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore deployment output
+*.out
+*.bak
+
+# Ignore node_modules or Python virtual environments if you add automation
+node_modules/
+venv/
