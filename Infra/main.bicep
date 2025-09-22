@@ -11,3 +11,24 @@ resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   name: '${namePrefix}-rg'
   location: location
 }
+
+// Stage 2: Network
+module network 'modules/network.bicep' = {
+  name: 'networkDeployment'
+  scope: rg
+  params: {
+    namePrefix: namePrefix
+    location: location
+  }
+}
+
+// Stage 3: Bastion
+module bastion 'modules/bastion.bicep' = {
+  name: 'bastionDeployment'
+  scope: rg
+  params: {
+    namePrefix: namePrefix
+    location: location
+    bastionSubnetId: network.outputs.bastionSubnetId
+  }
+}
