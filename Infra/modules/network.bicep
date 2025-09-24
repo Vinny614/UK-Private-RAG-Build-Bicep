@@ -5,6 +5,8 @@ param namePrefix string
 param location string
 
 output bastionSubnetId string = resourceId('Microsoft.Network/virtualNetworks/subnets', '${namePrefix}-VNet', 'AzureBastionSubnet')
+output jumpboxSubnetId string = resourceId('Microsoft.Network/virtualNetworks/subnets', '${namePrefix}-VNet', 'JumpboxSubnet')
+output privateLinkSubnetId string = resourceId('Microsoft.Network/virtualNetworks/subnets', '${namePrefix}-VNet', 'privatelinkSubnet')
 
 resource VNet 'Microsoft.Network/virtualNetworks@2024-07-01' = {
   name: '${namePrefix}-VNet'
@@ -41,7 +43,7 @@ resource VNet 'Microsoft.Network/virtualNetworks@2024-07-01' = {
           defaultOutboundAccess: false
         }
         type: 'Microsoft.Network/virtualNetworks/subnets'
-      }
+      }    
       {
         name: 'privatelinkSubnet'
         properties: {

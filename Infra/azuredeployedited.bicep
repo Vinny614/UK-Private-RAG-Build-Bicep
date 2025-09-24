@@ -472,91 +472,7 @@ resource accounts_AI_RAGpriv_name_Microsoft_DefaultV2 'Microsoft.CognitiveServic
   }
 }
 
-resource virtualMachines_VM_Jumpbox_name_resource 'Microsoft.Compute/virtualMachines@2024-11-01' = {
-  name: virtualMachines_VM_Jumpbox_name
-  location: 'uksouth'
-  tags: {
-    Version: '20230516'
-  }
-  zones: [
-    '1'
-  ]
-  identity: {
-    type: 'SystemAssigned'
-  }
-  properties: {
-    hardwareProfile: {
-      vmSize: 'Standard_B2as_v2'
-    }
-    additionalCapabilities: {
-      hibernationEnabled: false
-    }
-    storageProfile: {
-      imageReference: {
-        publisher: 'microsoftwindowsdesktop'
-        offer: 'windows-11'
-        sku: 'win11-22h2-entn'
-        version: 'latest'
-      }
-      osDisk: {
-        osType: 'Windows'
-        name: '${virtualMachines_VM_Jumpbox_name}_OsDisk_1_bc21c1d803874d2183201510440b93dd'
-        createOption: 'FromImage'
-        caching: 'ReadWrite'
-        managedDisk: {
-          storageAccountType: 'Standard_LRS'
-          id: resourceId(
-            'Microsoft.Compute/disks',
-            '${virtualMachines_VM_Jumpbox_name}_OsDisk_1_bc21c1d803874d2183201510440b93dd'
-          )
-        }
-        deleteOption: 'Delete'
-        diskSizeGB: 127
-      }
-      dataDisks: []
-      diskControllerType: 'SCSI'
-    }
-    osProfile: {
-      computerName: virtualMachines_VM_Jumpbox_name
-      adminUsername: 'jumpbox'
-      windowsConfiguration: {
-        provisionVMAgent: true
-        enableAutomaticUpdates: true
-        patchSettings: {
-          patchMode: 'AutomaticByOS'
-          assessmentMode: 'ImageDefault'
-          enableHotpatching: false
-        }
-      }
-      secrets: []
-      allowExtensionOperations: true
-      requireGuestProvisionSignal: true
-    }
-    securityProfile: {
-      uefiSettings: {
-        secureBootEnabled: true
-        vTpmEnabled: true
-      }
-      securityType: 'TrustedLaunch'
-    }
-    networkProfile: {
-      networkInterfaces: [
-        {
-          id: networkInterfaces_vm_jumpbox714_z1_name_resource.id
-          properties: {
-            deleteOption: 'Detach'
-          }
-        }
-      ]
-    }
-    diagnosticsProfile: {
-      bootDiagnostics: {
-        enabled: true
-      }
-    }
-    licenseType: 'Windows_Client'
-  }
-}
+
 
 resource systemTopics_saragpriv_75b7636e_baf5_49af_aa32_d7c92f1ea32e_name_resource 'Microsoft.EventGrid/systemTopics@2025-04-01-preview' = {
   name: systemTopics_saragpriv_75b7636e_baf5_49af_aa32_d7c92f1ea32e_name
@@ -605,38 +521,7 @@ resource systemTopics_saragpriv_75b7636e_baf5_49af_aa32_d7c92f1ea32e_name_Storag
 
 
 
-resource networkInterfaces_vm_jumpbox714_z1_name_resource 'Microsoft.Network/networkInterfaces@2024-07-01' = {
-  name: networkInterfaces_vm_jumpbox714_z1_name
-  location: 'uksouth'
-  kind: 'Regular'
-  properties: {
-    ipConfigurations: [
-      {
-        name: 'ipconfig1'
-        id: '${networkInterfaces_vm_jumpbox714_z1_name_resource.id}/ipConfigurations/ipconfig1'
-        type: 'Microsoft.Network/networkInterfaces/ipConfigurations'
-        properties: {
-          privateIPAddress: '10.0.0.4'
-          privateIPAllocationMethod: 'Dynamic'
-          subnet: {
-            id: virtualNetworks_VNet_RAGprivate_name_JumpboxSubnet.id
-          }
-          primary: true
-          privateIPAddressVersion: 'IPv4'
-        }
-      }
-    ]
-    dnsSettings: {
-      dnsServers: []
-    }
-    enableAcceleratedNetworking: true
-    enableIPForwarding: false
-    disableTcpStateTracking: false
-    nicType: 'Standard'
-    auxiliaryMode: 'None'
-    auxiliarySku: 'None'
-  }
-}
+
 
 resource networkSecurityGroups_VNet_RAGprivate_AzureBastionSubnet_nsg_uksouth_name_AllowAzureCloudOutbound 'Microsoft.Network/networkSecurityGroups/securityRules@2024-07-01' = {
   name: '${networkSecurityGroups_VNet_RAGprivate_AzureBastionSubnet_nsg_uksouth_name}/AllowAzureCloudOutbound'
@@ -726,26 +611,7 @@ resource networkSecurityGroups_VNet_RAGprivate_AzureBastionSubnet_nsg_uksouth_na
   ]
 }
 
-resource networkSecurityGroups_NSG_Jumpbox_name_RDPfmBastion 'Microsoft.Network/networkSecurityGroups/securityRules@2024-07-01' = {
-  name: '${networkSecurityGroups_NSG_Jumpbox_name}/RDPfmBastion'
-  properties: {
-    protocol: 'TCP'
-    sourcePortRange: '*'
-    destinationPortRange: '3389'
-    sourceAddressPrefix: '10.0.0.0/16'
-    destinationAddressPrefix: '*'
-    access: 'Allow'
-    priority: 100
-    direction: 'Inbound'
-    sourcePortRanges: []
-    destinationPortRanges: []
-    sourceAddressPrefixes: []
-    destinationAddressPrefixes: []
-  }
-  dependsOn: [
-    networkSecurityGroups_NSG_Jumpbox_name_resource
-  ]
-}
+
 
 resource privateDnsZones_privatelink_cognitiveservices_azure_com_name_aimulti_ragpriv 'Microsoft.Network/privateDnsZones/A@2024-06-01' = {
   parent: privateDnsZones_privatelink_cognitiveservices_azure_com_name_resource
@@ -1387,25 +1253,6 @@ resource accounts_AI_RAGpriv_name_PrivRag_saragpriv 'Microsoft.CognitiveServices
   ]
 }
 
-resource virtualNetworks_VNet_RAGprivate_name_JumpboxSubnet 'Microsoft.Network/virtualNetworks/subnets@2024-07-01' = {
-  name: '${virtualNetworks_VNet_RAGprivate_name}/JumpboxSubnet'
-  properties: {
-    addressPrefix: '10.0.0.0/24'
-    networkSecurityGroup: {
-      id: networkSecurityGroups_NSG_Jumpbox_name_resource.id
-    }
-    natGateway: {
-      id: natGateways_nat_jumpbox_name_resource.id
-    }
-    serviceEndpoints: []
-    delegations: []
-    privateEndpointNetworkPolicies: 'Disabled'
-    privateLinkServiceNetworkPolicies: 'Enabled'
-    defaultOutboundAccess: false
-  }
-  dependsOn: [
-    virtualNetworks_VNet_RAGprivate_name_resource
-  ]
-}
+
 
 

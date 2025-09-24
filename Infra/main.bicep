@@ -32,3 +32,23 @@ module bastion 'modules/bastion.bicep' = {
     bastionSubnetId: network.outputs.bastionSubnetId
   }
 }
+
+// Stage 4: Jumpbox
+@description('The username for the jumpbox VM')
+param jumpboxUsername string
+
+@secure()
+@description('The admin password for the jumpbox VM')
+param adminPassword string
+
+module jumpbox 'modules/jump.bicep' = {
+  name: 'jumpboxDeployment'
+  scope: rg
+  params: {
+    namePrefix: namePrefix
+    location: location
+    jumpboxSubnetId: network.outputs.jumpboxSubnetId
+    jumpboxUsername: jumpboxUsername
+    adminPassword: adminPassword
+  }
+}

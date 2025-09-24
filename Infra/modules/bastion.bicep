@@ -11,7 +11,7 @@ resource bastion 'Microsoft.Network/bastionHosts@2024-07-01' = {
   name: '${namePrefix}-bastion'
   location: location
   sku: {
-    name: 'Premium'
+    name: 'Standard'
   }
   properties: {
     scaleUnits: 2
